@@ -1,0 +1,20 @@
+//@version=5
+strategy("CCI Strategy", overlay=true)
+
+// 定义CCI策略参数
+cciLength = input(20, title="CCI Length")
+cciOverbought = input(100, title="CCI Overbought Level")
+cciOversold = input(-100, title="CCI Oversold Level")
+
+// 计算CCI指标
+cci = ta.cci(close, cciLength)
+
+// 定义交易信号
+enterLong = ta.crossunder(cci, cciOversold)
+exitLong = ta.crossover(cci, cciOverbought)
+
+// 执行交易信号
+if enterLong
+    strategy.entry("Long", strategy.long)
+if exitLong
+    strategy.close("Long")
